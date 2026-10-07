@@ -51,7 +51,7 @@ export default function HotelListPage() {
 
   useEffect(() => {
     loadHotels(0);
-   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function HotelListPage() {
         />
       </Helmet>
 
-      {/*  ATTRACTIVE HOME HERO */}
+      {/*  ATTRACTIVE HOME HERO  */}
       <section className="home-hero-new">
 
         <div className="home-hero-new-content">
@@ -162,7 +162,7 @@ export default function HotelListPage() {
       {/*  TOAST  */}
       {toast && (
         <div className="toast-success">
-          Hotel deleted successfully! 
+          Hotel deleted successfully!
         </div>
       )}
 
