@@ -9,7 +9,9 @@ export default function HotelCard({ hotel, onEdit, onDelete }) {
   if (!hotel) return null;
 
   const imageUrl = hotel.image_path
-    ? `${IMAGE_BASE}${hotel.image_path}`
+    ? hotel.image_path.startsWith('http')
+      ? hotel.image_path
+      : `${IMAGE_BASE}${hotel.image_path}`
     : 'https://via.placeholder.com/600x400?text=Hotel+Image';
 
   const price = Number(hotel.price || 0).toLocaleString('en-IN');
@@ -45,7 +47,6 @@ export default function HotelCard({ hotel, onEdit, onDelete }) {
         </div>
       </Link>
 
-
       {/* HOTEL DETAILS */}
       <div className="hotel-card-body">
 
@@ -65,7 +66,6 @@ export default function HotelCard({ hotel, onEdit, onDelete }) {
               }`
             : 'No description available.'}
         </p>
-
 
         {/* PRICE AND DETAILS */}
         <div className="hotel-card-bottom">
@@ -89,7 +89,6 @@ export default function HotelCard({ hotel, onEdit, onDelete }) {
           </Link>
 
         </div>
-
 
         {/* EDIT AND DELETE */}
         <div className="hotel-card-actions">

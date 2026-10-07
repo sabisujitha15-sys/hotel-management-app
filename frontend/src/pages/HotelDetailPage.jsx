@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { getHotelById, removeHotel } from '../features/hotels/hotelsSlice';
+import {
+  getHotelById,
+  removeHotel
+} from '../features/hotels/hotelsSlice';
 
-const IMAGE_BASE = (process.env.REACT_APP_API_URL || 'http://localhost:5000/api')
-  .replace('/api', '');
+const IMAGE_BASE = (
+  process.env.REACT_APP_API_URL || 'http://localhost:5000/api'
+).replace('/api', '');
 
 export default function HotelDetailPage() {
   const { id } = useParams();
@@ -19,11 +23,18 @@ export default function HotelDetailPage() {
   }, [id, dispatch]);
 
   if (!hotel) {
-    return <p className="status-text">Loading hotel details...</p>;
+    return (
+      <p className="status-text">
+        Loading hotel details...
+      </p>
+    );
   }
 
+  // Cloudinary URL or old local image URL
   const imageUrl = hotel.image_path
-    ? `${IMAGE_BASE}${hotel.image_path}`
+    ? hotel.image_path.startsWith('http')
+      ? hotel.image_path
+      : `${IMAGE_BASE}${hotel.image_path}`
     : 'https://via.placeholder.com/800x500?text=No+Image';
 
   const lat = parseFloat(hotel.latitude);
@@ -45,13 +56,17 @@ export default function HotelDetailPage() {
     <div className="page hotel-detail-page">
 
       <Helmet>
-        <title>{hotel.title} | Thynk Unlimited Stays</title>
+        <title>
+          {hotel.title} | Thynk Unlimited Stays
+        </title>
 
         <meta
           name="description"
           content={
-            (hotel.description ||
-              `Details about ${hotel.title}`).slice(0, 150)
+            (
+              hotel.description ||
+              `Details about ${hotel.title}`
+            ).slice(0, 150)
           }
         />
       </Helmet>
@@ -64,12 +79,9 @@ export default function HotelDetailPage() {
         ← Back to Hotels
       </button>
 
-
-      {/* ================= TOP SECTION ================= */}
-
+      {/* TOP SECTION */}
       <section className="detail-poster">
 
-        {/* DECORATIVE CIRCLE */}
         <div className="detail-decor-circle detail-circle-top"></div>
 
         {/* TITLE SIDE */}
@@ -107,7 +119,6 @@ export default function HotelDetailPage() {
 
         </div>
 
-
         {/* IMAGE AREA */}
         <div className="detail-image-area">
 
@@ -117,6 +128,10 @@ export default function HotelDetailPage() {
               src={imageUrl}
               alt={`${hotel.title} view`}
               className="detail-image"
+              onError={(event) => {
+                event.currentTarget.src =
+                  'https://via.placeholder.com/800x500?text=Image+Not+Available';
+              }}
             />
 
             <span className="detail-badge">
@@ -125,12 +140,16 @@ export default function HotelDetailPage() {
 
           </div>
 
-          {/* SECOND DECORATIVE IMAGE SHAPE */}
+          {/* SECOND IMAGE */}
           <div className="detail-image-accent">
 
             <img
               src={imageUrl}
               alt={`${hotel.title} interior`}
+              onError={(event) => {
+                event.currentTarget.src =
+                  'https://via.placeholder.com/500x350?text=Image+Not+Available';
+              }}
             />
 
           </div>
@@ -139,16 +158,16 @@ export default function HotelDetailPage() {
 
       </section>
 
-
-      {/* ================= HOTEL INFORMATION ================= */}
-
+      {/* HOTEL INFORMATION */}
       <section className="detail-info-section">
 
         <div className="section-heading">
 
           <span className="section-line"></span>
 
-          <h2>About this stay</h2>
+          <h2>
+            About this stay
+          </h2>
 
         </div>
 
@@ -156,7 +175,6 @@ export default function HotelDetailPage() {
           {hotel.description ||
             'A comfortable and memorable stay awaits you.'}
         </p>
-
 
         {/* INFORMATION PILLS */}
         <div className="detail-info-pills">
@@ -168,6 +186,7 @@ export default function HotelDetailPage() {
             </span>
 
             <div>
+
               <span className="info-label">
                 Price
               </span>
@@ -176,10 +195,10 @@ export default function HotelDetailPage() {
                 ₹{parseFloat(hotel.price).toLocaleString()}
                 <small> / night</small>
               </strong>
+
             </div>
 
           </div>
-
 
           <div className="detail-info-pill">
 
@@ -188,6 +207,7 @@ export default function HotelDetailPage() {
             </span>
 
             <div>
+
               <span className="info-label">
                 Location
               </span>
@@ -195,6 +215,7 @@ export default function HotelDetailPage() {
               <strong>
                 Exact location available
               </strong>
+
             </div>
 
           </div>
@@ -203,9 +224,7 @@ export default function HotelDetailPage() {
 
       </section>
 
-
-      {/* ================= LOCATION ================= */}
-
+      {/* LOCATION */}
       <section className="detail-location-section">
 
         <div className="location-title">
@@ -224,7 +243,6 @@ export default function HotelDetailPage() {
 
         </div>
 
-
         {/* MAP */}
         <div className="detail-map">
 
@@ -239,29 +257,30 @@ export default function HotelDetailPage() {
 
         </div>
 
-
         {/* COORDINATES */}
         <div className="coordinates-box">
 
           <div>
             <span>Latitude</span>
-            <strong>{hotel.latitude}</strong>
+            <strong>
+              {hotel.latitude}
+            </strong>
           </div>
 
           <div className="coordinate-divider"></div>
 
           <div>
             <span>Longitude</span>
-            <strong>{hotel.longitude}</strong>
+            <strong>
+              {hotel.longitude}
+            </strong>
           </div>
 
         </div>
 
       </section>
 
-
-      {/* ================= ACTIONS ================= */}
-
+      {/* ACTIONS */}
       <section className="detail-actions">
 
         <button
@@ -273,14 +292,12 @@ export default function HotelDetailPage() {
           Edit Hotel
         </button>
 
-
         <button
           className="btn btn-delete detail-delete-btn"
           onClick={handleDelete}
         >
           Delete Hotel
         </button>
-
 
         <button
           className="btn detail-list-btn"
@@ -291,8 +308,6 @@ export default function HotelDetailPage() {
 
       </section>
 
-
-      {/* DECORATIVE CIRCLE */}
       <div className="detail-decor-circle detail-circle-bottom"></div>
 
     </div>

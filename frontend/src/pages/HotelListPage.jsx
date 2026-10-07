@@ -180,7 +180,7 @@ export default function HotelListPage() {
 
       </section>
 
-      {/* ================= HOTEL LIST ================= */}
+      {/*  HOTEL LIST  */}
       <section
         className="home-hotels-section"
         id="hotel-collection"
