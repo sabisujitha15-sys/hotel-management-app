@@ -59,7 +59,7 @@ export default function AddEditHotelPage() {
       </Helmet>
 
 
-      {/* ================= HEADER ================= */}
+      {/*  HEADER  */}
 
       <div className="form-page-header">
 
@@ -88,7 +88,7 @@ export default function AddEditHotelPage() {
       </div>
 
 
-      {/* ================= FORM CARD ================= */}
+      {/*  FORM CARD  */}
 
       <div className="form-card">
 
@@ -132,7 +132,7 @@ export default function AddEditHotelPage() {
       </div>
 
 
-      {/* ================= BOTTOM NOTE ================= */}
+      {/*  BOTTOM NOTE  */}
 
       <div className="form-page-note">
 
